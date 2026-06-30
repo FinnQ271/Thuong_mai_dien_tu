@@ -8,7 +8,9 @@ export function middleware(request: NextRequest) {
   const isAllowedOrigin = origin && (
     origin.startsWith('http://localhost:') || 
     origin.startsWith('http://127.0.0.1:') ||
-    origin.includes('rivoramart')
+    origin.includes('rivoramart') ||
+    origin.includes('vercel.app') ||
+    origin.includes('thuong-mai-dien-tu')
   );
 
   const corsHeaders = {
