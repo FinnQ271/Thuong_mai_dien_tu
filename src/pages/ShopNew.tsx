@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { categories, formatPrice, type Product } from '../data/products';
 import ProductCard from '../components/ProductCard';
+import { API_BASE_URL } from '../config';
 
 
 interface ShopNewProps {
@@ -15,7 +16,7 @@ function ShopNew({ navigate }: ShopNewProps) {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch('http://localhost:3000/api/products?active=true&limit=100');
+        const res = await fetch(`${API_BASE_URL}/api/products?active=true&limit=100`);
         const data = await res.json();
         if (data.success) {
           setApiProducts(data.data);

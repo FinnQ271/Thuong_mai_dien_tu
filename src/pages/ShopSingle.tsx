@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { formatPrice, type Product } from '../data/products';
 import { useCart } from '../context/CartContext';
+import { API_BASE_URL } from '../config';
 
 interface ShopSingleProps {
   productId?: number;
@@ -25,7 +26,7 @@ function ShopSingle({ productId, navigate }: ShopSingleProps) {
       if (!productId) return;
       setLoading(true);
       try {
-        const res = await fetch(`http://localhost:3000/api/products/${productId}`);
+        const res = await fetch(`${API_BASE_URL}/api/products/${productId}`);
         const data = await res.json();
         if (data.success && data.data) {
           const foundProduct = data.data;
@@ -39,7 +40,7 @@ function ShopSingle({ productId, navigate }: ShopSingleProps) {
 
           // Fetch related products
           if (foundProduct.categorySlug) {
-            const relatedRes = await fetch(`http://localhost:3000/api/products?category=${foundProduct.categorySlug}&limit=5`);
+            const relatedRes = await fetch(`${API_BASE_URL}/api/products?category=${foundProduct.categorySlug}&limit=5`);
             const relatedData = await relatedRes.json();
             if (relatedData.success) {
               setRelatedProducts(relatedData.data);

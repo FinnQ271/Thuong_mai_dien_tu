@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE_URL } from '../config';
 
 interface Order {
   id: string;
@@ -147,7 +148,7 @@ export function AdminDashboard() {
   const fetchDashboardData = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch('http://localhost:3000/api/admin/dashboard', {
+      const res = await fetch(`${API_BASE_URL}/api/admin/dashboard`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
@@ -170,7 +171,7 @@ export function AdminDashboard() {
   const fetchUsers = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch('http://localhost:3000/api/admin/users', {
+      const res = await fetch(`${API_BASE_URL}/api/admin/users`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
@@ -188,7 +189,7 @@ export function AdminDashboard() {
   const fetchContacts = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch('http://localhost:3000/api/contact?status=all', {
+      const res = await fetch(`${API_BASE_URL}/api/contact?status=all`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
@@ -206,7 +207,7 @@ export function AdminDashboard() {
   const fetchProducts = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch('http://localhost:3000/api/products?active=all&limit=100', {
+      const res = await fetch(`${API_BASE_URL}/api/products?active=all&limit=100`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
@@ -223,7 +224,7 @@ export function AdminDashboard() {
   // Fetch Categories
   const fetchCategories = async () => {
     try {
-      const res = await fetch('http://localhost:3000/api/categories');
+      const res = await fetch(`${API_BASE_URL}/api/categories`);
       const data = await res.json();
       if (res.ok && data.success) {
         // filter out 'all' category
@@ -238,7 +239,7 @@ export function AdminDashboard() {
   const fetchOrders = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch('http://localhost:3000/api/orders?status=all', {
+      const res = await fetch(`${API_BASE_URL}/api/orders?status=all`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
@@ -269,7 +270,7 @@ export function AdminDashboard() {
   const handleUpdateContact = async () => {
     if (!selectedContact) return;
     try {
-      const res = await fetch(`http://localhost:3000/api/admin/contacts/${selectedContact.id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/admin/contacts/${selectedContact.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -296,7 +297,7 @@ export function AdminDashboard() {
   // Handle Update Order Status
   const handleUpdateOrder = async (orderId: string, status: string, paymentStatus: string) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/orders/${orderId}`, {
+      const res = await fetch(`${API_BASE_URL}/api/orders/${orderId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -309,7 +310,7 @@ export function AdminDashboard() {
         alert('Cập nhật đơn hàng thành công!');
         fetchOrders();
         // Update selected order details
-        const detailsRes = await fetch(`http://localhost:3000/api/orders/${orderId}`, {
+        const detailsRes = await fetch(`${API_BASE_URL}/api/orders/${orderId}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         const detailsData = await detailsRes.json();
@@ -327,7 +328,7 @@ export function AdminDashboard() {
   // Handle Toggle Product Active status
   const handleToggleProduct = async (productId: number, currentActive: boolean) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/products/${productId}`, {
+      const res = await fetch(`${API_BASE_URL}/api/products/${productId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -357,7 +358,7 @@ export function AdminDashboard() {
 
     setIsDeletingProduct(true);
     try {
-      const res = await fetch(`http://localhost:3000/api/products/${deleteProductTarget.id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/products/${deleteProductTarget.id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -415,7 +416,7 @@ export function AdminDashboard() {
     formData.append('file', file);
 
     try {
-      const res = await fetch('http://localhost:3000/api/upload', {
+      const res = await fetch(`${API_BASE_URL}/api/upload`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`
@@ -447,8 +448,8 @@ export function AdminDashboard() {
 
     const isEdit = !!editingProduct;
     const url = isEdit 
-      ? `http://localhost:3000/api/products/${editingProduct.id}`
-      : 'http://localhost:3000/api/products';
+      ? `${API_BASE_URL}/api/products/${editingProduct.id}`
+      : `${API_BASE_URL}/api/products`;
     const method = isEdit ? 'PATCH' : 'POST';
 
     try {
@@ -1237,7 +1238,7 @@ export function AdminDashboard() {
                                 onClick={async () => {
                                   setIsLoading(true);
                                   try {
-                                    const res = await fetch(`http://localhost:3000/api/orders/${o.id}`, {
+                                    const res = await fetch(`${API_BASE_URL}/api/orders/${o.id}`, {
                                       headers: { Authorization: `Bearer ${token}` }
                                     });
                                     const data = await res.json();

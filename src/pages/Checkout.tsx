@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { useAuth } from "../context/AuthContext"
 import { useCart } from "../context/CartContext"
 import { formatPrice } from "../data/products"
+import { API_BASE_URL } from "../config"
 
 type CheckoutProps = {
   navigate: (page: string) => void
@@ -497,7 +498,7 @@ function Checkout ({ navigate }: CheckoutProps) {
                     };
 
                     try {
-                      const response = await fetch('http://localhost:3000/api/orders', {
+                      const response = await fetch(`${API_BASE_URL}/api/orders`, {
                         method: 'POST',
                         headers: {
                           'Content-Type': 'application/json',
